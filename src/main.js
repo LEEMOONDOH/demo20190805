@@ -7,6 +7,8 @@ import ElementUI from 'element-ui'
 Vue.use(ElementUI)
 import 'element-ui/lib/theme-chalk/index.css'
 Vue.config.productionTip = false
+import '@/style/index.css'
+import '../lib/font-awesome-4.7.0/css/font-awesome.min.css'
 
 /* eslint-disable no-new */
 new Vue({
