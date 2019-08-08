@@ -75,24 +75,23 @@ export default {
     drawPic() {
       var canvas = document.getElementById('s-canvas')
       var ctx = canvas.getContext('2d')
-      ctx.textBaseline = 'bottom'
-      // 绘制背景
+      ctx.textBaseline = 'bottom' //设置绘制基线
+      // 绘制背景(颜色/渐变/阴影),这里只设置了颜色
       ctx.fillStyle = this.randomColor(
         this.backgroundColorMin,
         this.backgroundColorMax
       )
-      ctx.fillRect(0, 0, this.contentWidth, this.contentHeight)
+      ctx.fillRect(0, 0, this.contentWidth, this.contentHeight)//绘制矩形
       // 绘制文字
       for (let i = 0; i < this.identifyCode.length; i++) {
         this.drawText(ctx, this.identifyCode[i], i)
       }
-      this.drawLine(ctx)
-      this.drawDot(ctx)
+      this.drawLine(ctx) //绘制线条
+      this.drawDot(ctx) //绘制干扰点
     },
     drawText(ctx, txt, i) {
       ctx.fillStyle = this.randomColor(this.colorMin, this.colorMax)
-      ctx.font =
-        this.randomNum(this.fontSizeMin, this.fontSizeMax) + 'px SimHei'
+      ctx.font = this.randomNum(this.fontSizeMin, this.fontSizeMax) + 'px SimHei'; //设置字体
       var x = (i + 1) * (this.contentWidth / (this.identifyCode.length + 1))
       var y = this.randomNum(this.fontSizeMax, this.contentHeight - 5)
       var deg = this.randomNum(-45, 45)
@@ -107,11 +106,12 @@ export default {
     drawLine(ctx) {
       // 绘制干扰线
       for (let i = 0; i < 8; i++) {
+        //设置笔触的颜色/渐变/模式
         ctx.strokeStyle = this.randomColor(
           this.lineColorMin,
           this.lineColorMax
         )
-        ctx.beginPath()
+        ctx.beginPath(); //开始一条路径,或是重置当前路径
         ctx.moveTo(
           this.randomNum(0, this.contentWidth),
           this.randomNum(0, this.contentHeight)
@@ -120,7 +120,7 @@ export default {
           this.randomNum(0, this.contentWidth),
           this.randomNum(0, this.contentHeight)
         )
-        ctx.stroke()
+        ctx.stroke(); //开始绘制定义好的路径
       }
     },
     drawDot(ctx) {
@@ -134,8 +134,8 @@ export default {
           1,
           0,
           2 * Math.PI
-        )
-        ctx.fill()
+        ); //创建弧或者是圆
+        ctx.fill(); //填充当前绘图(路径)
       }
     }
   },
