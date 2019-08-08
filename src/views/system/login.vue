@@ -30,7 +30,6 @@
     reg_email,
     reg_password
   } from '../../js/validator.js'
-  import verifyCode from '../../components/verifyCode.vue'
   import GVerify from '../../js/verifyCode.js'
 
   export default {
