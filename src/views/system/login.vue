@@ -5,15 +5,14 @@
         <span class="span-title">用户登录</span>
       </el-form-item>
       <el-form-item prop="userAccount">
-        <el-input v-model="loginForm.userAccount" placeholder="请输入邮箱" prefix-icon="fa fa-user-circle-o" clearable></el-input>
-
+        <el-input v-model="loginForm.userAccount" placeholder="请输入邮箱" prefix-icon="fa fa-user-circle-o" clearable/>
       </el-form-item>
       <el-form-item prop="userPassword">
-        <el-input v-model="loginForm.userPassword" placeholder="请输入密码" prefix-icon="fa fa-lock" show-password></el-input>
+        <el-input v-model="loginForm.userPassword" placeholder="请输入密码" prefix-icon="fa fa-lock" show-password/>
 
       </el-form-item>
       <el-form-item prop="verifyCode">
-        <el-input v-model="verifyCode" placeholder="请输入验证码" prefix-icon="fa fa-info-circle" class="input-verify-code"></el-input>
+        <el-input v-model="verifyCode" placeholder="请输入验证码" prefix-icon="fa fa-info-circle" class="input-verify-code"/>
 
         <span id="verify"></span>
       </el-form-item>
@@ -34,14 +33,12 @@
 
   export default {
     name: "Login",
-    components: {
-      verifyCode
-    },
 
     data() {
       return {
         isEmail: false,
         verifyCode: '',
+        isVerifyCode: false,
         GVerifyCode: {},
         loadingBtn: false,
         rules: {
@@ -75,35 +72,62 @@
         //this.GVerifyCode.refresh();
       },
       submitLogin() {
-        this.loadingBtn = true;
-        if (this.loginForm.userAccount == '2102028233@qq.com' && this.loginForm.userPassword == 'xytt@980926') {
-          setTimeout(() => {
-            this.$message({
-              type: 'success',
-              message: '登录成功'
-            });
-            this.loadingBtn = false;
-          }, 500);
 
-        } else {
-          setTimeout(() => {
-            this.$message({
-              type: 'error',
-              message: '登录失败'
-            });
-            this.loadingBtn = false;
-          }, 500);
+        if (this.verifyCode == '') {
+          this.$message({
+            type: 'warning',
+            message: '请输入验证码'
+          });
+        } else if (this.isVerifyCode == false){
+          this.$message({
+            type: 'error',
+            message: '验证码错误'
+          });
+        }else {
+          this.loadingBtn = true;
+          this.$refs.loginForm.validate()
+            .then(res => {
+              if (this.loginForm.userAccount == '2102028233@qq.com' && this.loginForm.userPassword == 'xytt@980926') {
+                setTimeout(() => {
+                  this.$message({
+                    type: 'success',
+                    message: '登录成功'
+                  });
+                  this.loadingBtn = false;
+                }, 500);
+
+              } else {
+                setTimeout(() => {
+                  this.$message({
+                    type: 'error',
+                    message: '登录失败'
+                  });
+                  this.loadingBtn = false;
+                }, 500);
+
+              }
+            })
+            .catch(error => {
+              setTimeout(() => {
+                this.$message({
+                  type: 'error',
+                  message: '验证失败'
+                });
+                this.loadingBtn = false;
+              }, 500);
+            })
 
         }
       }
+
     },
     watch: {
       'verifyCode': function() {
-        console.log(this.GVerifyCode.validate(this.verifyCode))
-        console.log(this.verifyCode)
+        this.isVerifyCode = this.GVerifyCode.validate(this.verifyCode);
+        console.log(this.isVerifyCode)
       },
-      isEmail (){
-        if(this.isEmail == false){
+      isEmail() {
+        if (this.isEmail == false) {
           console.log(11111)
         }
       }
