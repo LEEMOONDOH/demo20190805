@@ -1,20 +1,23 @@
 <template>
   <div class="div-login">
-    <el-form label-position="right" :model="loginForm" :rules="rules" ref="loginForm" label-width="0px">
+    <el-form label-position="right" :model="loginForm" ref="loginForm" label-width="0px">
       <el-form-item class="form-item-title">
         <span class="span-title">用户登录</span>
       </el-form-item>
-      <el-form-item prop="userAccount">
-        <el-input v-model="loginForm.userAccount" placeholder="请输入邮箱" prefix-icon="fa fa-user-circle-o" clearable/>
+      <el-form-item>
+        <el-input v-model="loginForm.userAccount" placeholder="example@qq.com" prefix-icon="fa fa-user-circle-o"
+          clearable />
+        <i v-show="emailTip" :class="[isEmail.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isEmail.msg}}</i>
       </el-form-item>
       <el-form-item prop="userPassword">
-        <el-input v-model="loginForm.userPassword" placeholder="请输入密码" prefix-icon="fa fa-lock" show-password/>
-
+        <el-input v-model="loginForm.userPassword" placeholder="密码至少包含字母数字" prefix-icon="fa fa-lock" show-password />
+        <i v-show="passwordTip" :class="[isPassword.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isPassword.msg}}</i>
       </el-form-item>
       <el-form-item prop="verifyCode">
-        <el-input v-model="verifyCode" placeholder="请输入验证码" prefix-icon="fa fa-info-circle" class="input-verify-code"/>
+        <el-input v-model="verifyCode" placeholder="请输入验证码" prefix-icon="fa fa-info-circle" class="input-verify-code" />
+        <i v-show="verifyCodeTip" :class="[isVerifyCode.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isVerifyCode.msg}}</i>
+        <span id="verify" @click="refreshVerifyCode"></span>
 
-        <span id="verify"></span>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submitLogin" :loading="loadingBtn">登 录</el-button>
@@ -26,8 +29,8 @@
 
 <script>
   import {
-    reg_email,
-    reg_password
+    is_email,
+    is_password
   } from '../../js/validator.js'
   import GVerify from '../../js/verifyCode.js'
 
@@ -36,23 +39,24 @@
 
     data() {
       return {
-        isEmail: false,
-        verifyCode: '',
-        isVerifyCode: false,
-        GVerifyCode: {},
-        loadingBtn: false,
-        rules: {
-          userAccount: [{
-            required: true,
-            validator: reg_email,
-            trigger: 'blur',
-          }],
-          userPassword: [{
-            required: true,
-            validator: reg_password,
-            trigger: 'blur'
-          }]
+        emailTip: false,
+        passwordTip: false,
+        verifyCodeTip: false, //控制是否展示提示信息
+        isEmail: {
+          code: 1,
+          res: false
         },
+        isPassword: {
+          code: 1,
+          res: false
+        },
+        isVerifyCode: {
+          code: 1,
+          res: false
+        }, //保存校验的结果
+        verifyCode: '', //保存生成的验证码
+        GVerifyCode: {},
+        loadingBtn: false, //按钮加载
         loginForm: {
           userAccount: '',
           userPassword: ''
@@ -64,6 +68,7 @@
       that.verifyFun();
     },
     methods: {
+      //生成验证码
       verifyFun() {
         this.GVerifyCode = new GVerify({
           id: "verify",
@@ -71,23 +76,28 @@
         });
         //this.GVerifyCode.refresh();
       },
+      refreshVerifyCode(){
+        this.verifyCode = ""
+      },
       submitLogin() {
-
-        if (this.verifyCode == '') {
+        //判断信息是否填写完整
+        if (this.isEmail.code == 1 || this.isPassword.code == 1 || this.isVerifyCode.code == 1) {
           this.$message({
             type: 'warning',
-            message: '请输入验证码'
+            message: '请将信息填写完整后重试'
           });
-        } else if (this.isVerifyCode == false){
+        }
+        //判断信息是否通过校验
+        else if (this.isEmail.res != true || this.isPassword.res != true || this.isVerifyCode.res != true) {
           this.$message({
-            type: 'error',
-            message: '验证码错误'
+            type: 'warning',
+            message: '信息填写有误，请重试'
           });
-        }else {
+        } else {
           this.loadingBtn = true;
           this.$refs.loginForm.validate()
             .then(res => {
-              if (this.loginForm.userAccount == '2102028233@qq.com' && this.loginForm.userPassword == 'xytt@980926') {
+              if (this.loginForm.userAccount == 'dylan@qq.com' && this.loginForm.userPassword == 'xytt980926') {
                 setTimeout(() => {
                   this.$message({
                     type: 'success',
@@ -111,19 +121,27 @@
               setTimeout(() => {
                 this.$message({
                   type: 'error',
-                  message: '验证失败'
+                  message: '未知错误'
                 });
                 this.loadingBtn = false;
               }, 500);
             })
-
         }
       }
 
     },
     watch: {
+      'loginForm.userAccount': function() {
+        this.emailTip = true;
+        this.isEmail = is_email(this.loginForm.userAccount);
+      },
+      'loginForm.userPassword': function() {
+        this.passwordTip = true;
+        this.isPassword = is_password(this.loginForm.userPassword);
+      },
       'verifyCode': function() {
         this.isVerifyCode = this.GVerifyCode.validate(this.verifyCode);
+        this.verifyCodeTip = true;
         console.log(this.isVerifyCode)
       },
       isEmail() {
@@ -156,12 +174,15 @@
 
   .div-login .form-item-title {
     text-align: left;
-    margin-bottom: 20px !important;
     border-bottom: 1px solid #82767663;
   }
 
   .div-login .form-item-title .span-title {
     font-size: 24px !important;
+  }
+
+  .div-login .el-form-item i {
+    font-size: 12px;
   }
 
   .div-login button {
@@ -178,5 +199,14 @@
     float: left;
     display: inline-block;
     width: 180px;
+  }
+
+  #verify {
+    width: 100px;
+    height: 40px;
+  }
+
+  .el-form-item .el-form-item__content {
+    height: 40px;
   }
 </style>

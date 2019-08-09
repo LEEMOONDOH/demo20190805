@@ -1,5 +1,21 @@
 @charset "utf-8";
-html,body{
+
+html,
+body {
   font-size: 14px;
   margin: 0;
+}
+
+.el-form-item__success {
+  font-size: 12px;
+  line-height: 1;
+  padding-top: 4px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: #10bd10;
+}
+.fa-check-circle-o:before,
+.fa-times-circle-o:before{
+ padding: 0 5px;
 }

@@ -106,14 +106,31 @@ GVerify.prototype = {
 
   /**验证验证码**/
   validate: function(code) {
-    var code = code.toLowerCase();
-    var v_code = this.options.code.toLowerCase();
-    if (code == v_code) {
-      return true;
+    if (!code) {
+      return {
+        code: 1,
+        msg: '请输入验证码',
+        res: false,
+      }
     } else {
-      //this.refresh();
-      return false;
+      var code = code.toLowerCase();
+      var v_code = this.options.code.toLowerCase();
+      if (code == v_code) {
+        return {
+          code: 0,
+          msg: '验证码正确',
+          res: true,
+        }
+      } else {
+        //this.refresh();
+        return {
+          code: 2,
+          msg: '验证码错误',
+          res: false,
+        }
+      }
     }
+
   }
 }
 /**生成字母数组**/
