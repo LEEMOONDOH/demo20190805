@@ -8,11 +8,14 @@
 # install dependencies
 npm install
 
-# npm install less less-loader -S -D
+# install less less-loader
+npm install less less-loader -S -D
 
-# npm install axios -S -D
+#install axios
+npm install axios -S -D
 
-# npm install element-ui -S -D
+#install element-ui
+npm install element-ui -S -D
 
 # serve with hot reload at localhost:8080
 npm run dev
