@@ -1,12 +1,18 @@
 # demo20190805
 
-> A Vue.js project
+> A Vue.js demo project by dylan
 
 ## Build Setup
 
 ``` bash
 # install dependencies
 npm install
+
+# npm install less less-loader -S -D
+
+# npm install axios -S -D
+
+# npm install element-ui -S -D
 
 # serve with hot reload at localhost:8080
 npm run dev
