@@ -1,28 +1,28 @@
 <template>
-  <div class="div-login">
-    <el-form label-position="right" :model="loginForm" ref="loginForm" label-width="0px">
-      <el-form-item class="form-item-title">
-        <span class="span-title">用户登录</span>
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="loginForm.userAccount" placeholder="example@qq.com" prefix-icon="fa fa-user-circle-o"
-          clearable />
-        <i v-show="emailTip" :class="[isEmail.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isEmail.msg}}</i>
-      </el-form-item>
-      <el-form-item prop="userPassword">
-        <el-input v-model="loginForm.userPassword" placeholder="密码至少包含字母数字" prefix-icon="fa fa-lock" show-password />
-        <i v-show="passwordTip" :class="[isPassword.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isPassword.msg}}</i>
-      </el-form-item>
-      <el-form-item prop="verifyCode">
-        <el-input v-model="verifyCode" placeholder="请输入验证码" prefix-icon="fa fa-info-circle" class="input-verify-code" />
-        <i v-show="verifyCodeTip" :class="[isVerifyCode.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isVerifyCode.msg}}</i>
-        <span id="verify" @click="refreshVerifyCode"></span>
-
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="submitLogin" :loading="loadingBtn">登 录</el-button>
-      </el-form-item>
-    </el-form>
+  <div class="div-body">
+    <div class="div-login">
+      <el-form label-position="right" :model="loginForm" ref="loginForm" label-width="0px">
+        <el-form-item class="form-item-title">
+          <span class="span-title">用户登录</span>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="loginForm.userAccount" @keyup.enter="submitLogin" placeholder="example@qq.com" prefix-icon="fa fa-user-circle-o"
+            clearable />
+          <i v-show="emailTip" :class="[isEmail.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isEmail.msg}}</i>
+        </el-form-item>
+        <el-form-item prop="userPassword">
+          <el-input v-model="loginForm.userPassword" placeholder="密码至少包含字母数字" prefix-icon="fa fa-lock" show-password />
+          <i v-show="passwordTip" :class="[isPassword.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isPassword.msg}}</i>
+        </el-form-item>
+        <el-form-item prop="verifyCode">
+          <el-input v-model="verifyCode" placeholder="请输入验证码" @keyup.enter="submitLogin" prefix-icon="fa fa-info-circle" class="input-verify-code" />
+          <i v-show="verifyCodeTip" :class="[isVerifyCode.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isVerifyCode.msg}}</i>
+          <span id="verify" @click="refreshVerifyCode"></span> </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitLogin" :loading="loadingBtn">登 录</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 
 </template>
@@ -36,7 +36,6 @@
 
   export default {
     name: "Login",
-
     data() {
       return {
         emailTip: false,
@@ -76,7 +75,7 @@
         });
         //this.GVerifyCode.refresh();
       },
-      refreshVerifyCode(){
+      refreshVerifyCode() {
         this.verifyCode = ""
       },
       submitLogin() {
@@ -104,6 +103,7 @@
                     message: '登录成功'
                   });
                   this.loadingBtn = false;
+                  this.$router.push('/home')
                 }, 500);
 
               } else {
@@ -127,8 +127,7 @@
               }, 500);
             })
         }
-      }
-
+      },
     },
     watch: {
       'loginForm.userAccount': function() {
@@ -142,71 +141,17 @@
       'verifyCode': function() {
         this.isVerifyCode = this.GVerifyCode.validate(this.verifyCode);
         this.verifyCodeTip = true;
-        console.log(this.isVerifyCode)
+        //console.log(this.isVerifyCode)
       },
-      isEmail() {
-        if (this.isEmail == false) {
-          console.log(11111)
-        }
-      }
     }
   }
 </script>
 
-<style>
-  body {
-    background-image: url(../../img/bkg01.jpg);
-  }
+<style scoped>
+  @import url("../../style/login.less");
 
-  .div-login {
-    display: inline-block;
-    width: 300px;
-    position: absolute;
-    top: 200px;
-    right: 200px;
-    padding: 20px 40px;
-    text-align: center;
-    border: 1px solid #eee;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-  }
-
-  .div-login .form-item-title {
-    text-align: left;
-    border-bottom: 1px solid #82767663;
-  }
-
-  .div-login .form-item-title .span-title {
-    font-size: 24px !important;
-  }
-
-  .div-login .el-form-item i {
-    font-size: 12px;
-  }
-
-  .div-login button {
-    font-size: 18px;
-    width: 300px;
-    box-shadow: 2px 2px 5px 0 #3a8ee6;
-  }
-
-  .div-login .el-form-item {
-    margin-bottom: 30px;
-  }
-
-  .div-login .input-verify-code {
-    float: left;
-    display: inline-block;
-    width: 180px;
-  }
-
-  #verify {
-    width: 100px;
-    height: 40px;
-  }
-
-  .el-form-item .el-form-item__content {
-    height: 40px;
+  /* scoped穿透 */
+  .div-login>>>.el-form-item .el-form-item__content {
+    height: 40px !important;
   }
 </style>
