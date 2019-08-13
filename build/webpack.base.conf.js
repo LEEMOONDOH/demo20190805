@@ -34,6 +34,18 @@ module.exports = {
         loader: 'vue-loader',
         options: vueLoaderConfig
       },
+      /* {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader', 'less-loader']
+      }, */
+      // 可以在控制台中看到当前标签样式来自于哪个less文件
+      {
+        test: /\.less$/,
+        loader: "style-loader!css-loader!less-loader",
+        options: {
+          sourceMap: true
+        }
+      },
       {
         test: /\.js$/,
         loader: 'babel-loader',

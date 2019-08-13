@@ -147,9 +147,11 @@
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   @import url("../../style/login.less");
 
+</style>
+<style scoped>
   /* scoped穿透 */
   .div-login>>>.el-form-item .el-form-item__content {
     height: 40px !important;

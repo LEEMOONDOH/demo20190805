@@ -64,7 +64,7 @@
     }
   }
 </script>
-<style>
+<style lang="less">
   @import url("../../style/home.less");
   /* .el-aside .el-menu{
     border-right: none !important
