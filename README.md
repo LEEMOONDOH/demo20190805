@@ -11,11 +11,17 @@ npm install
 # install less less-loader
 npm install less less-loader -S -D
 
-#install axios
+# install axios
 npm install axios -S -D
 
-#install element-ui
+# install element-ui
 npm install element-ui -S -D
+
+# install Vuex
+npm install Vuex -S -D
+
+# install vue-i18n
+npm install vue-i18n -S -D
 
 # serve with hot reload at localhost:8080
 npm run dev

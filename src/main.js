@@ -14,10 +14,16 @@ import '../lib/my-element-ui/theme/index.css'
 import Axios from 'axios'
 Vue.prototype.$axios = Axios
 
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
+import i18n from './config/i18n'
+
 import '!style-loader!css-loader!less-loader!./style/index.less'
 new Vue({
   el: '#app',
   router,
+  i18n,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
 })
