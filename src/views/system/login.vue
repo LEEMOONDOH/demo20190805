@@ -81,14 +81,15 @@
       submitLogin() {
         //判断信息是否填写完整
         if (this.isEmail.code == 1 || this.isPassword.code == 1 || this.isVerifyCode.code == 1) {
-          this.$message({
+          this.$notify({
             type: 'warning',
-            message: '请将信息填写完整后重试'
+            message: '请将信息填写完整后重试',
+            showClose: false
           });
         }
         //判断信息是否通过校验
         else if (this.isEmail.res != true || this.isPassword.res != true || this.isVerifyCode.res != true) {
-          this.$message({
+          this.$notify({
             type: 'warning',
             message: '信息填写有误，请重试'
           });
@@ -98,9 +99,10 @@
             .then(res => {
               if (this.loginForm.userAccount == 'dylan@qq.com' && this.loginForm.userPassword == 'xytt980926') {
                 setTimeout(() => {
-                  this.$message({
+                  this.$notify({
                     type: 'success',
-                    message: '登录成功'
+                    message: '登录成功',
+                    showClose: false,
                   });
                   this.loadingBtn = false;
                   this.$router.push('/home')
@@ -108,9 +110,10 @@
 
               } else {
                 setTimeout(() => {
-                  this.$message({
+                  this.$notify({
                     type: 'error',
-                    message: '登录失败'
+                    message: '登录失败',
+                    showClose: false,
                   });
                   this.loadingBtn = false;
                 }, 500);
@@ -119,9 +122,10 @@
             })
             .catch(error => {
               setTimeout(() => {
-                this.$message({
+                this.$notify({
                   type: 'error',
-                  message: '未知错误'
+                  message: '未知错误',
+                  showClose: false,
                 });
                 this.loadingBtn = false;
               }, 500);
