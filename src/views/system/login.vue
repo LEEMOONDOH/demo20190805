@@ -15,7 +15,8 @@
           <i v-show="passwordTip" :class="[isPassword.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isPassword.msg}}</i>
         </el-form-item>
         <el-form-item prop="verifyCode">
-          <el-input v-model="verifyCode" placeholder="请输入验证码" @keyup.enter="submitLogin" prefix-icon="fa fa-info-circle" class="input-verify-code" />
+          <el-input v-model="verifyCode" placeholder="请输入验证码" @keyup.enter="submitLogin" prefix-icon="fa fa-info-circle"
+            class="input-verify-code" />
           <i v-show="verifyCodeTip" :class="[isVerifyCode.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isVerifyCode.msg}}</i>
           <span id="verify" @click="refreshVerifyCode"></span> </el-form-item>
         <el-form-item>
@@ -97,38 +98,36 @@
           this.loadingBtn = true;
           this.$refs.loginForm.validate()
             .then(res => {
-              if (this.loginForm.userAccount == 'dylan@qq.com' && this.loginForm.userPassword == 'xytt980926') {
-                setTimeout(() => {
-                  this.$notify({
-                    type: 'success',
-                    message: '登录成功',
-                    showClose: false,
-                  });
-                  this.loadingBtn = false;
-                  this.$router.push('/home')
-                }, 500);
-
-              } else {
-                setTimeout(() => {
-                  this.$notify({
-                    type: 'error',
-                    message: '登录失败',
-                    showClose: false,
-                  });
-                  this.loadingBtn = false;
-                }, 500);
-
-              }
+              this.$axios.post("http://localhost:8090/user/login", {
+                  userEmail: this.loginForm.userAccount,
+                  userPassword: this.loginForm.userPassword
+                })
+                .then(res => {
+                  if (res.data.code == 200) {
+                    this.$notify({
+                      type: 'success',
+                      message: '登录成功',
+                      showClose: false,
+                    });
+                    this.loadingBtn = false;
+                    this.$router.push('/home');
+                  } else if (res.data.code == 500) {
+                    this.$notify({
+                      type: 'error',
+                      message: '登录失败',
+                      showClose: false,
+                    });
+                    this.loadingBtn = false;
+                  }
+                })
             })
             .catch(error => {
-              setTimeout(() => {
-                this.$notify({
-                  type: 'error',
-                  message: '未知错误',
-                  showClose: false,
-                });
-                this.loadingBtn = false;
-              }, 500);
+              this.$notify({
+                type: 'error',
+                message: '未知错误',
+                showClose: false,
+              });
+              this.loadingBtn = false;
             })
         }
       },
@@ -153,7 +152,6 @@
 
 <style lang="less" scoped>
   @import url("../../style/login.less");
-
 </style>
 <style scoped>
   /* scoped穿透 */
