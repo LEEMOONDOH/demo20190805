@@ -5,7 +5,7 @@ Vue.use(VueI18n)
 import zh_CN from '@/language/zh_CN'
 import en from '@/language/en'
 const i18n = new VueI18n({
-  locale: 'en',
+  locale: 'zh_CN',
   messages: {
     zh_CN,
     en,

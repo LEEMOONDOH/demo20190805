@@ -11,11 +11,12 @@ Vue.config.productionTip = false
 import '../lib/font-awesome-4.7.0/css/font-awesome.min.css'
 import '../lib/my-element-ui/theme/index.css'
 /* eslint-disable no-new */
-import Axios from 'axios'
-Vue.prototype.$axios = Axios
+import axios from './config/axios/instance'
+Vue.prototype.$axios = axios
 
-import Vuex from 'vuex'
-Vue.use(Vuex)
+// import Vuex from 'vuex'
+// Vue.use(Vuex)
+import store from "./config/vuex/store"
 
 import i18n from './config/i18n'
 
@@ -23,6 +24,7 @@ import '!style-loader!css-loader!less-loader!./style/index.less'
 new Vue({
   el: '#app',
   router,
+  store,
   i18n,
   components: { App },
   template: '<App/>',

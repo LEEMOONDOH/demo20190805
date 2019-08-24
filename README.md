@@ -1,6 +1,6 @@
 # demo20190805
 
-> A Vue.js demo project by dylan
+> A Vue.js demo project authored by dylan since 2019.08
 
 ## Build Setup
 
@@ -22,6 +22,12 @@ npm install Vuex -S -D
 
 # install vue-i18n
 npm install vue-i18n -S -D
+
+#install NProgress
+npm install nprogress -S -D
+
+#install Qs
+npm install qs -S -D
 
 # serve with hot reload at localhost:8080
 npm run dev

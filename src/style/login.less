@@ -8,7 +8,7 @@
     display: inline-block;
     width: 300px;
     position: absolute;
-    top: 200px;
+    top: 20vh;
     right: 200px;
     padding: 20px 40px;
     text-align: center;
@@ -24,9 +24,23 @@
       }
     }
     .el-form-item{
-      margin-bottom: 30px;
+      font-size: 20px !important;
+      margin-bottom: 35px;
+      // scope穿透的less写法
+      /deep/.el-form-item__content{
+        height: 40px !important;
+      }
+      /deep/input{
+        font-size: 16px;
+        font-weight: 600;
+        color: #303133;
+      }
+      // 修改label图标的大小
+      /deep/.el-input__icon{
+        font-size: 16px;
+      }
       i {
-        font-size: 12px;
+        font-size: 14px;
       }
       .el-button {
         font-size: 18px;

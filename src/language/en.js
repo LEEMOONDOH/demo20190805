@@ -2,7 +2,7 @@ export default{
   home: {
     menu: {
       profile: 'Profile',
-      changeSkin: 'ChangeSkin',
+      changeSkin: 'Skin',
       signOut: 'SignOut'
     }
   }

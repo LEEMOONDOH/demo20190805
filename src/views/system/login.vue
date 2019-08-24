@@ -6,16 +6,16 @@
           <span class="span-title">用户登录</span>
         </el-form-item>
         <el-form-item>
-          <el-input v-model="loginForm.userAccount" @keyup.enter="submitLogin" placeholder="example@qq.com" prefix-icon="fa fa-user-circle-o"
+          <el-input v-model="loginForm.userAccount" @keyup.enter.native="submitLogin" placeholder="example@qq.com" prefix-icon="fa fa-user-circle-o"
             clearable />
           <i v-show="emailTip" :class="[isEmail.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isEmail.msg}}</i>
         </el-form-item>
         <el-form-item prop="userPassword">
-          <el-input v-model="loginForm.userPassword" placeholder="密码至少包含字母数字" prefix-icon="fa fa-lock" show-password />
+          <el-input v-model="loginForm.userPassword" @keyup.enter.native="submitLogin" placeholder="密码至少包含字母数字" prefix-icon="fa fa-lock" show-password />
           <i v-show="passwordTip" :class="[isPassword.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isPassword.msg}}</i>
         </el-form-item>
         <el-form-item prop="verifyCode">
-          <el-input v-model="verifyCode" placeholder="请输入验证码" @keyup.enter="submitLogin" prefix-icon="fa fa-info-circle"
+          <el-input v-model="verifyCode" placeholder="请输入验证码" @keyup.enter.native="submitLogin" prefix-icon="fa fa-info-circle"
             class="input-verify-code" />
           <i v-show="verifyCodeTip" :class="[isVerifyCode.res?'fa fa-check-circle-o el-form-item__success':'fa fa-times-circle-o el-form-item__error']">{{isVerifyCode.msg}}</i>
           <span id="verify" @click="refreshVerifyCode"></span> </el-form-item>
@@ -34,6 +34,9 @@
     is_password
   } from '../../js/validator.js'
   import GVerify from '../../js/verifyCode.js'
+  import {
+    getUser
+  } from "@/api/system/login.js"
 
   export default {
     name: "Login",
@@ -84,7 +87,7 @@
         if (this.isEmail.code == 1 || this.isPassword.code == 1 || this.isVerifyCode.code == 1) {
           this.$notify({
             type: 'warning',
-            message: '请将信息填写完整后重试',
+            message: '请将信息填写完整后重试！',
             showClose: false
           });
         }
@@ -92,45 +95,28 @@
         else if (this.isEmail.res != true || this.isPassword.res != true || this.isVerifyCode.res != true) {
           this.$notify({
             type: 'warning',
-            message: '信息填写有误，请重试'
+            message: '信息填写有误，请重试！',
+            showClose: false
           });
         } else {
           this.loadingBtn = true;
-          this.$refs.loginForm.validate()
+          getUser(this.loginForm.userAccount, this.loginForm.userPassword)
             .then(res => {
-              this.$axios.post("http://localhost:8090/user/login", {
-                  userEmail: this.loginForm.userAccount,
-                  userPassword: this.loginForm.userPassword
-                })
-                .then(res => {
-                  if (res.data.code == 200) {
-                    this.$notify({
-                      type: 'success',
-                      message: '登录成功',
-                      showClose: false,
-                    });
-                    this.loadingBtn = false;
-                    this.$router.push('/home');
-                  } else if (res.data.code == 500) {
-                    this.$notify({
-                      type: 'error',
-                      message: '登录失败',
-                      showClose: false,
-                    });
-                    this.loadingBtn = false;
-                  }
-                })
+              if (res.code == 200) {
+                this.$notify({
+                  type: 'success',
+                  message: '登录成功！',
+                  showClose: false,
+                });
+                this.loadingBtn = false;
+                this.$router.push('/home');
+              }
             })
-            .catch(error => {
-              this.$notify({
-                type: 'error',
-                message: '未知错误',
-                showClose: false,
-              });
+            .catch(() => {
               this.loadingBtn = false;
             })
         }
-      },
+      }
     },
     watch: {
       'loginForm.userAccount': function() {
@@ -155,7 +141,7 @@
 </style>
 <style scoped>
   /* scoped穿透 */
-  .div-login>>>.el-form-item .el-form-item__content {
+  /* .div-login>>>.el-form-item .el-form-item__content {
     height: 40px !important;
-  }
+  } */
 </style>
