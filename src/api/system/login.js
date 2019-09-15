@@ -12,7 +12,7 @@ export const getUser = (userEmail, userPassword) => {
   return request({
     url: "user/login",
     method: "post",
-    params: {
+    data: {
       userEmail,
       userPassword,
     }

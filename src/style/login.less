@@ -1,60 +1,137 @@
 .div-body {
   height: 100vh;
-  background-image: url('../img/bkg01.jpg');
+  // background-image: url('../img/bkg01.jpg');
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: 100%;
+
   .div-login {
     display: inline-block;
-    width: 300px;
     position: absolute;
-    top: 20vh;
-    right: 200px;
-    padding: 20px 40px;
-    text-align: center;
-    border: 1px solid #eee;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: rgba(255, 255, 255, 0.8);
-    .form-item-title {
-      text-align: left;
-      border-bottom: 1px solid #82767663;
-      .span-title {
-        font-size: 24px !important;
-      }
+    top: 50vh;
+    left: 50%;
+    width: 800px;
+    height: 500px;
+    // padding: 50px;
+    margin: -300px -350px;
+    // border-radius: 10px;
+    box-shadow: 1px 2px 10px 1px #ccc;
+    // width: 300px;
+    // position: absolute;
+    // top: 20vh;
+    // right: 200px;
+    // padding: 20px 40px;
+    // text-align: center;
+    // border: 1px solid #eee;
+    // box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    // border-radius: 10px;
+    background-color: rgba(255, 255, 255, 1);
+
+    .div-left {
+      display: inline-block;
+      width: 400px;
+      height: 100%;
+      float: left;
+      background-color: #50ccfb;
+      background-image: linear-gradient(308deg, #50ccfb 0%, #b64beb 100%);
+      box-shadow: 1px 1px 10px 2px #aaa;
     }
-    .el-form-item{
-      font-size: 20px !important;
-      margin-bottom: 35px;
-      // scope穿透的less写法
-      /deep/.el-form-item__content{
-        height: 40px !important;
+
+    .div-right {
+      // background-color: #B721FF;
+      display: inline-block;
+      width: 300px;
+      float: right;
+      padding: 50px;
+
+      .form-item-title {
+        text-align: left;
+        border-bottom: 1px solid #82767663;
+
+        .span-title {
+          font-size: 24px !important;
+        }
       }
-      /deep/input{
-        font-size: 16px;
-        font-weight: 600;
-        color: #303133;
+
+      .span-forget {
+        display: block;
+        text-align: right;
+        margin: -10px 10px 20px;
       }
-      // 修改label图标的大小
-      /deep/.el-input__icon{
-        font-size: 16px;
-      }
-      i {
-        font-size: 14px;
-      }
-      .el-button {
-        font-size: 18px;
-        width: 300px;
-        box-shadow: 2px 2px 5px 0 #3a8ee6;
-      }
-      .input-verify-code {
-        float: left;
-        display: inline-block;
-        width: 180px;
-      }
-      #verify {
-        width: 100px;
-        height: 40px;
+
+      .el-form-item {
+        font-size: 20px !important;
+        margin-bottom: 35px;
+
+        // scope穿透的less写法
+        /deep/.el-form-item__content {
+          height: 40px !important;
+        }
+
+        /deep/input {
+          font-size: 16px;
+          font-weight: 600;
+          color: #303133;
+          border-radius: 20px;
+          box-shadow: 1px 2px 10px 1px #ccc;
+          // padding: 0 5px;
+        }
+
+        // 修改label图标的大小
+        /deep/.el-input__icon {
+          font-size: 16px;
+        }
+
+        i {
+          font-size: 14px;
+        }
+
+        .el-button {
+          font-size: 18px;
+          width: 120px;
+          border: none;
+          border-radius: 20px;
+          box-shadow: 1px 2px 10px 0 #ccc;
+        }
+
+        // 注册账户按钮
+        .btn-register {
+          margin-left: 40px;
+        }
+
+        .btn-register:hover {
+          background-color: #fff;
+        }
+
+        .btn-login {
+          background-color: #21D4FD;
+          background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+
+          .fa-arrow-right {
+            font-size: inherit;
+            float: right;
+          }
+        }
+
+
+
+        .btn-login:hover {
+          color: #eee;
+          background-color: #35f9c0;
+          background-image: linear-gradient(128deg, #35f9c0 0%, #a56ff7 68%);
+        }
+
+        .input-verify-code {
+          float: left;
+          display: inline-block;
+          width: 180px;
+        }
+
+        #verify {
+          float: right;
+          width: 100px;
+          height: 40px;
+        }
       }
     }
   }

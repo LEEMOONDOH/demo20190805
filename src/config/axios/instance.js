@@ -8,7 +8,7 @@ import axios from "axios"
 import BaseUrl from "@/api/api"
 import NProgress from "nprogress" //进度条插件
 import "nprogress/nprogress.css"
-import {Notification} from 'element-ui' //element-ui的通知样式
+import { Notification } from 'element-ui' //element-ui的通知样式
 import Qs from "qs" // 用来处理数据
 
 
@@ -22,8 +22,8 @@ const instance = axios.create({
 //http request拦截器
 instance.interceptors.request.use(config => {
   NProgress.start(); //开启Nprogress加载进度条
-  console.log("baseurl",BaseUrl)
-  console.log("config",config)
+  console.log("baseurl", BaseUrl)
+  console.log("config", config)
   // console.log(store.getters.token)
   /* if (store.getters.token) {
     console.log(getToken())
@@ -40,29 +40,32 @@ instance.interceptors.request.use(config => {
 
 //http respone拦截器
 instance.interceptors.response.use(
-   response => {
-     NProgress.done();
-     // 异常处理
-     if(response.status < 200 || response.status > 500){
-       
-       Notification({
-         message: "未知错误",
-         type: 'error',
-         showClose: false,
-         // duration: 5 * 1000 //持续时间
-       })
-     }else if(response.status === 200){
-       let res = response.data;
-       if (res.code != 200){
-         Notification({
-           message: res.message,
-           type: 'error',
-           showClose: false,
-           // duration: 5 * 1000 //持续时间
-         })
-       }else
-       return res;
-     }
+  response => {
+    NProgress.done();
+    console.log("response",response)
+    // 异常处理
+    if (response.status < 200 || response.status > 500) {
+      Notification({
+        message: "未知错误",
+        type: 'error',
+        showClose: false,
+        // duration: 5 * 1000 //持续时间
+      })
+    } else if (response.status === 200) {
+      let res = response.data;
+      console.log("res",response.data);
+      if (res.code != 200) {
+        Notification({
+          message: res.msg,
+          type: 'error',
+          showClose: false,
+          // duration: 5 * 1000 //持续时间
+        })
+      } else {
+        return res;
+      }
+
+    }
     // /**
     //  * code为非20000是抛错 可结合自己业务进行修改
     //  */
@@ -97,7 +100,7 @@ instance.interceptors.response.use(
   },
   error => {
     NProgress.done();
-    if(error.response && error.response.status == 404){
+    if (error.response && error.response.status == 404) {
       Notification({
         message: "资源未找到",
         type: 'error',
@@ -105,20 +108,20 @@ instance.interceptors.response.use(
         // duration: 5 * 1000 //持续时间
       })
     }
-/*    if (error.message === 'Network Error' && error.config.url.endsWith('/license')) {
-      Message({
-        message: '无法连接到本地代理程序，请确认代理程序是否运行正常！',
-        type: 'error',
-        duration: 5 * 1000
-      })
-    } else {
-      console.log(error + ' ' + error.config.url) // for debug
-      Message({
-        message: error.message + ' ' + error.config.url,
-        type: 'error',
-        duration: 5 * 1000
-      })
-    } */
+    /*    if (error.message === 'Network Error' && error.config.url.endsWith('/license')) {
+          Message({
+            message: '无法连接到本地代理程序，请确认代理程序是否运行正常！',
+            type: 'error',
+            duration: 5 * 1000
+          })
+        } else {
+          console.log(error + ' ' + error.config.url) // for debug
+          Message({
+            message: error.message + ' ' + error.config.url,
+            type: 'error',
+            duration: 5 * 1000
+          })
+        } */
     return Promise.reject(error)
   }
 )
